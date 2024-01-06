@@ -64,7 +64,6 @@ func StartClientAndReceiveQuote(ctx context.Context, serverAddr string) (string,
 	reader := bufio.NewReader(conn)
 	writer := bufio.NewWriter(conn)
 
-	// Receive POW challenge from server
 	challenge, err := reader.ReadString('\n')
 	if err != nil {
 		return "", fmt.Errorf("failed to read challenge: %w", err)
