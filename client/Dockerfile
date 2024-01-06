@@ -2,10 +2,14 @@ FROM golang:latest
 
 WORKDIR /app
 
-COPY . .
+COPY ../go.mod ./
 
 RUN go mod download
 
+COPY ./client .
+
 RUN go build -o client
 
-ENTRYPOINT ["./client"]
+EXPOSE 8080
+
+CMD ["./client"]

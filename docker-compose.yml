@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - wow-network
+
+  client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    depends_on:
+      - server
+    networks:
+      - wow-network
+
+networks:
+  wow-network:
+    driver: bridge

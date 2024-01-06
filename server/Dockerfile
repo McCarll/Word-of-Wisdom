@@ -2,9 +2,11 @@ FROM golang:latest
 
 WORKDIR /app
 
-COPY . .
+COPY ../go.mod ./
 
 RUN go mod download
+
+COPY ./server .
 
 RUN go build -o server
 

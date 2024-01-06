@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	ServerAddress = "localhost:8080"
+	ServerAddress = "server:8080"
 	Difficulty    = 4
 )
 
