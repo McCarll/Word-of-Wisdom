@@ -20,9 +20,4 @@
 
 
 ## Docker
-### build
-#### docker build -t wow-server ./server
-#### docker build -t wow-client ./client
-### run 
-#### docker run -d -p 8080:8080 wow-server
-#### docker run -it wow-client
+#### docker-compose up --build
