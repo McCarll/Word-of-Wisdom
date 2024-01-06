@@ -3,28 +3,45 @@ package main
 import (
 	"bufio"
 	_ "bufio"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	_ "fmt"
 	"math/rand"
 	"net"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 )
 
 func main() {
+	_, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	ln, _ := net.Listen("tcp", ":8080")
 
 	defer ln.Close()
-
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			continue
+	go func() {
+		for {
+			conn, err := ln.Accept()
+			if err != nil {
+				continue
+			}
+			go handleConnection(conn)
 		}
-		go handleConnection(conn)
-	}
+	}()
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	<-sigChan
+	fmt.Println("\nReceived shutdown signal, closing server...")
+
+	cancel()
+
+	fmt.Println("Server successfully shutdown")
 }
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
