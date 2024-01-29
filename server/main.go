@@ -20,7 +20,11 @@ import (
 func main() {
 	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	ln, _ := net.Listen("tcp", ":8080")
+	ln, err := net.Listen("tcp", ":8080")
+	if err {
+		fmt.Println("Can't start server")
+		cancel()
+	}
 
 	defer ln.Close()
 	go func() {
